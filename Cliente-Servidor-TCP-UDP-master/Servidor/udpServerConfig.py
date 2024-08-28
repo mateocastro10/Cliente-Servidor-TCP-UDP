@@ -1,14 +1,13 @@
 from socket import *
-import http.client
+from dolarAPI import *
 
 class UDPServer:
     
     __port : int
     __serverSocket : any
-    #__serverip: str
 
-    def __init__(self):
-        self.__port = 12000
+    def __init__(self, port):
+        self.__port = port 
         
         
     def createSocket(self):
@@ -26,6 +25,8 @@ class UDPServer:
         while True:
             message,clientAdress = self.__serverSocket.recvfrom(2048) #Leera hasta 2048 Bytes (Tamaño del buffer)
             print(f"Mensaje recibido: {message.decode()} de {clientAdress}")
+            dolar = dolarAPI()
+            print(dolar.getDolarOficial())
             modifiedMessage = message.decode().upper()
             self.sendMessage(modifiedMessage.encode(),clientAdress)
             

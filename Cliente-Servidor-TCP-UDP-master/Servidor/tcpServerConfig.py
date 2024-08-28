@@ -4,8 +4,8 @@ class TCPServer:
     __port: int
     __serverSocket: any
 
-    def __init__(self):
-        self.__port = 12000
+    def __init__(self, port):
+        self.__port = port
         
     def createSocket(self):  # Crea el socket para el servidor
         self.__serverSocket = socket(AF_INET, SOCK_STREAM)  # AF_INET es para IPv4, SOCK_STREAM es para TCP

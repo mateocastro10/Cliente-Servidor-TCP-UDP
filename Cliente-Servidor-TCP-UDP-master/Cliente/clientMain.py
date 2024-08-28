@@ -7,7 +7,7 @@ class ServerInterface:
     def __init__(self, master):
         self.master = master
         self.master.title("Server Communication Interface")
-        self.master.geometry("400x350")
+        self.master.geometry("400x400")  # Ajusta la altura de la ventana
         
         # Etiqueta para seleccionar el protocolo
         self.protocol_label = tk.Label(master, text="Seleccione el Protocolo:", font=("Arial", 12))
@@ -29,21 +29,25 @@ class ServerInterface:
         self.port_entry.pack(pady=5)
         self.port_entry.insert(0, "12000")  # Valor por defecto
         
-        # Etiqueta para el mensaje
-        self.message_label = tk.Label(master, text="Message:", font=("Arial", 12))
-        self.message_label.pack(pady=10)
+        # Etiqueta para seleccionar el tipo de dólar
+        self.dollar_type_label = tk.Label(master, text="Seleccione el tipo de dólar:", font=("Arial", 12))
+        self.dollar_type_label.pack(pady=10)
         
-        # Entrada para el mensaje
-        self.message_entry = tk.Entry(master, font=("Arial", 12))
-        self.message_entry.pack(pady=5)
+        # Variable para el tipo de dólar
+        self.dollar_type_var = tk.StringVar()
+        self.dollar_type_var.set("Dólar Oficial")  # Valor por defecto
+        
+        # Menú desplegable para seleccionar el tipo de dólar
+        self.dollar_type_menu = tk.OptionMenu(master, self.dollar_type_var, "Dólar Oficial", "Dólar Blue", "Dólar Tarjeta", "Dólar Cripto")
+        self.dollar_type_menu.pack(pady=5)
         
         # Botón para enviar el mensaje
-        self.send_button = tk.Button(master, text="Send Message", font=("Arial", 12), command=self.send_message)
+        self.send_button = tk.Button(master, text="Send Request", font=("Arial", 12), command=self.send_message)
         self.send_button.pack(pady=20)
         
         # Área de texto para mostrar la respuesta del servidor
         self.response_area = tk.Text(master, height=5, width=40, font=("Arial", 12))
-        self.response_area.pack(pady=10)
+        self.response_area.pack(pady=20)
         
         # Inicializa el cliente como None
         self.client = None
@@ -52,14 +56,10 @@ class ServerInterface:
         try:
             protocol = self.protocol_var.get()
             port = int(self.port_entry.get())
-            message = self.message_entry.get()
+            dollar_type = self.dollar_type_var.get()  # Obtiene el tipo de dólar seleccionado
             
             if protocol not in [1, 2]:
                 messagebox.showwarning("Input Error", "Please select a protocol.")
-                return
-            
-            if not message:
-                messagebox.showwarning("Input Error", "Please enter a message.")
                 return
             
             # Crear la conexión TCP o UDP
@@ -70,8 +70,8 @@ class ServerInterface:
             
             self.client.createSocket()
             
-            # Enviar el mensaje
-            self.client.sendMessage(message)
+            # Enviar solo el tipo de dólar seleccionado
+            self.client.sendMessage(dollar_type)
             
             # Recibir la respuesta
             response = self.client.receiveMessage()
@@ -79,16 +79,14 @@ class ServerInterface:
             
         except Exception as e:
             messagebox.showerror("Error", f"An error occurred: {e}")
-        finally:
-            if self.client:
-                self.client.closeSocket()
+    
+    def getDolarType(self):
+        return self.dollar_type_var.get()
+        
 
-def main():
+
+    
+if __name__ == "__main__":
     root = tk.Tk()
     app = ServerInterface(root)
     root.mainloop()
-
-if __name__ == "__main__":
-    main()
-
-    
