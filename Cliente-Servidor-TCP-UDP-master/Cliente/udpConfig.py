@@ -1,5 +1,5 @@
 from socket import * 
-
+import json
 class UDPConfig:
 
     __port : int
@@ -18,7 +18,9 @@ class UDPConfig:
         
     def receiveMessage(self):
         message, serverAdress =  self.__clientSocket.recvfrom(2048)
-        return (message.decode())
+        response_json = message.decode('utf-8')  # Decodificar de bytes a cadena
+        response_dict = json.loads(response_json)  # Deserializar la cadena JSON a un dict
+        return (response_dict)
     
     def close(self):
         self.__clientSocket.close()

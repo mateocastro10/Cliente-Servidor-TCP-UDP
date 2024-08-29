@@ -1,5 +1,5 @@
 from socket import *
-
+import json
 class TCPConfig:
     __port: int
     __clientSocket: any
@@ -18,7 +18,10 @@ class TCPConfig:
         self.__clientSocket.send(message.encode())
 
     def receiveMessage(self):
-        return self.__clientSocket.recv(2048).decode()
+        message, serverAdress =  self.__clientSocket.recvfrom(2048)
+        response_json = message.decode('utf-8')  # Decodificar de bytes a cadena
+        response_dict = json.loads(response_json)  # Deserializar la cadena JSON a un dict
+        return (response_dict)
 
     def closeSocket(self):
         self.__clientSocket.close()

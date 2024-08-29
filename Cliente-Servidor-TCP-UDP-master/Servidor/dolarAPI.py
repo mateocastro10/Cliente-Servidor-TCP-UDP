@@ -9,10 +9,22 @@ class dolarAPI():
         
     def getDolarOficial(self):
         localUrl = self.__url + 'dolares/oficial'
-        print(localUrl)
         response = requests.get(localUrl)
         return response.json()
 
+    def getDolarBlue(self):
+        localUrl = self.__url + 'dolares/blue'
+        response = requests.get(localUrl)
+        return response.json()
 
+    def getDolarCripto(self):
+        localUrl = self.__url + 'dolares/cripto'
+        response = requests.get(localUrl)
+        return response.json()
+    
+    def getDolarCard(self):
+        localUrl = self.__url + 'dolares/tarjeta'
+        response = requests.get(localUrl)
+        return response.json()
     
     

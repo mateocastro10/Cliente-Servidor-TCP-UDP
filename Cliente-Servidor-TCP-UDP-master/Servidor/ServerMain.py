@@ -2,7 +2,7 @@ from udpServerConfig import *
 from tcpServerConfig import *
 
 def selectAnProtocol():
-    answ = int(input('Seleccione el protocolo: 1- TCP  2-UDP'))
+    answ = int(input('Seleccione el protocolo: 1- TCP  2-UDP: '))
     return answ
 
 if __name__ == '__main__':
