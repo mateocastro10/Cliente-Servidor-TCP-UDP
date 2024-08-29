@@ -10,13 +10,13 @@ class ServerInterface:
         self.master.geometry("450x450")  # Ajusta el tamaño de la ventana
 
         # Configurar la cuadrícula
-        self.master.grid_rowconfigure(0, weight=1)
-        self.master.grid_rowconfigure(1, weight=1)
-        self.master.grid_rowconfigure(2, weight=1)
-        self.master.grid_rowconfigure(3, weight=1)
-        self.master.grid_rowconfigure(4, weight=1)
-        self.master.grid_columnconfigure(0, weight=1)
-        self.master.grid_columnconfigure(1, weight=3)
+        self.master.grid_rowconfigure(0, weight=2)
+        self.master.grid_rowconfigure(1, weight=2)
+        self.master.grid_rowconfigure(2, weight=2)
+        self.master.grid_rowconfigure(3, weight=2)
+        self.master.grid_rowconfigure(4, weight=2)
+        self.master.grid_columnconfigure(0, weight=2)
+        self.master.grid_columnconfigure(1, weight=4)
         
         # Etiqueta para seleccionar el protocolo
         self.protocol_label = tk.Label(master, text="Seleccione el Protocolo:", font=("Arial", 12))
@@ -27,7 +27,15 @@ class ServerInterface:
         self.tcp_radio = tk.Radiobutton(master, text="TCP", variable=self.protocol_var, value=1, font=("Arial", 12))
         self.udp_radio = tk.Radiobutton(master, text="UDP", variable=self.protocol_var, value=2, font=("Arial", 12))
         self.tcp_radio.grid(row=1, column=0, padx=10, pady=5, sticky="w")
-        self.udp_radio.grid(row=2, column=0, padx=10, pady=5, sticky="w")
+        self.udp_radio.grid(row=1, column=1, padx=10, pady=5, sticky="w")
+        
+        # Etiqueta para la dirección IP del servidor
+        self.ip_label = tk.Label(master, text="Dirección IP del Servidor:", font=("Arial", 12))
+        self.ip_label.grid(row=2, column=0, padx=10, pady=10, sticky="w")
+
+        # Entrada para la dirección IP del servidor
+        self.ip_entry = tk.Entry(master, font=("Arial", 12))
+        self.ip_entry.grid(row=2, column=1, padx=10, pady=5, sticky="ew")
         
         # Etiqueta para el puerto
         self.port_label = tk.Label(master, text="Port:", font=("Arial", 12))
@@ -73,9 +81,35 @@ class ServerInterface:
 
     def send_message(self):
         try:
+            # Validar que se haya seleccionado un protocolo
             protocol = self.protocol_var.get()
-            port = int(self.port_entry.get())
-            dollar_type = self.dollar_type_var.get()  # Obtiene el tipo de dólar seleccionado
+            if protocol not in [1, 2]:
+                messagebox.showwarning("Input Error", "Please select a protocol.")
+                return
+
+            # Validar que la dirección IP no esté vacía
+            serverip = self.ip_entry.get()
+            if not serverip or type(serverip) is not:
+                messagebox.showwarning("Input Error", "Please enter the server IP address.")
+                return
+
+            # Validar que el puerto no esté vacío y sea un número válido
+            port = self.port_entry.get()
+            if not port:
+                messagebox.showwarning("Input Error", "Please enter the port number.")
+                return
+            try:
+                port = int(port)
+            except ValueError:
+                messagebox.showwarning("Input Error", "Port number must be an integer.")
+                return
+
+            # Validar que se haya seleccionado un tipo de dólar
+            dollar_type = self.dollar_type_var.get()
+            if not dollar_type:
+                messagebox.showwarning("Input Error", "Please select a dollar type.")
+                return
+    
 
             if protocol not in [1, 2]:
                 messagebox.showwarning("Input Error", "Please select a protocol.")
