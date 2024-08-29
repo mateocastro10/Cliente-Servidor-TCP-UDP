@@ -7,7 +7,7 @@ class ServerInterface:
     def __init__(self, master):
         self.master = master
         self.master.title("Server Communication Interface")
-        self.master.geometry("450x450")  # Ajusta el tamaño de la ventana
+        self.master.geometry("600x600")  # Ajusta el tamaño de la ventana
 
         # Configurar la cuadrícula
         self.master.grid_rowconfigure(0, weight=2)
@@ -89,7 +89,7 @@ class ServerInterface:
 
             # Validar que la dirección IP no esté vacía
             serverip = self.ip_entry.get()
-            if not serverip or type(serverip) is not:
+            if not serverip or type(serverip) != "string":
                 messagebox.showwarning("Input Error", "Please enter the server IP address.")
                 return
 
