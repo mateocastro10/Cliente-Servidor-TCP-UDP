@@ -9,8 +9,8 @@ if __name__ == '__main__':
     r = selectAnProtocol()
     if r==1 or r==2:
         if r==1:
-            server = TCPServer(12000)
+            server = TCPServer(12100)
         else:
-            server = UDPServer(12000)
+            server = UDPServer(12100)
     server.createSocket()
     server.receiveMessage()

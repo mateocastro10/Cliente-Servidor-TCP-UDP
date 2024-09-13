@@ -89,9 +89,9 @@ class ServerInterface:
 
             # Validar que la dirección IP no esté vacía
             serverip = self.ip_entry.get()
-            if not serverip or type(serverip) != "string":
-                messagebox.showwarning("Input Error", "Please enter the server IP address.")
-                return
+            #if not serverip or type(serverip) != "string":
+             #   messagebox.showwarning("Input Error", "Please enter the server IP address.")
+                #return
 
             # Validar que el puerto no esté vacío y sea un número válido
             port = self.port_entry.get()
@@ -117,9 +117,9 @@ class ServerInterface:
             
             # Crear la conexión TCP o UDP
             if protocol == 1:
-                self.client = TCPConfig(port)
+                self.client = TCPConfig(port, serverip)
             else:
-                self.client = UDPConfig(port)
+                self.client = UDPConfig(port, serverip)
             
             self.client.createSocket()
             
@@ -127,7 +127,7 @@ class ServerInterface:
             self.client.sendMessage(dollar_type)
             
             response = self.client.receiveMessage()
-            
+            print(response)
             # Imprime la respuesta para depuración
             print("Response received from server:", response)
             # Mostrar la información completa de cotización en los inputs

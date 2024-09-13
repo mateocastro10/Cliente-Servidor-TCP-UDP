@@ -10,7 +10,7 @@ class UDPServer:
         self.__port = port
 
     def createSocket(self):
-        self.__serverSocket = socket(AF_INET, SOCK_DGRAM)
+        self.__serverSocket = socket(AF_INET, SOCK_DGRAM) #SOCKDGRAM: UDP
         self.bindSocket()
 
     def bindSocket(self):
@@ -40,6 +40,7 @@ class UDPServer:
 
             response_json = json.dumps(response_dict)  # Serializar el dict a JSON
             response_bytes = response_json.encode('utf-8')  # Convertir la cadena JSON a bytes
+            print(f"Mensaje enviado: {response_dict}")
             self.sendMessage(response_bytes, clientAdress)
 
     def sendMessage(self, message, clientAdress):

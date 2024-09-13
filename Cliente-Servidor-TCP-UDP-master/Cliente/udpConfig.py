@@ -6,9 +6,9 @@ class UDPConfig:
     __clientSocket : any
     __serverName : str
     
-    def __init__(self,port: int):
+    def __init__(self,port, ip):
         self.__port = port
-        self.__serverName = 'localhost'
+        self.__serverName = ip
         
     def createSocket(self):
         self.__clientSocket = socket(AF_INET,SOCK_DGRAM)
